@@ -77,3 +77,28 @@ if st.button("Generate Team Roles"):
 
     st.subheader("Team Role Assignment")
     st.table(df_results)
+    
+    st.subheader("Team Advisor Tips")
+
+    tips = []
+
+    if project_type == "Machine Learning":
+        if "Researcher" not in role_counts:
+            tips.append("Consider having at least one Researcher for an ML project.")
+        if role_counts.get("Developer", 0) < 1:
+            tips.append("You should have at least one strong Developer for implementation.")
+
+    if project_type == "Web Development":
+        if "Designer" not in role_counts:
+            tips.append("A Designer can improve UI/UX for web projects.")
+        if role_counts.get("Developer", 0) < 2:
+            tips.append("Web projects usually benefit from having more than one Developer.")
+
+    if "Team Leader" not in role_counts:
+        tips.append("Your team does not have a clear Team Leader. Consider assigning one for coordination.")
+
+    if len(tips) == 0:
+        tips.append("Your team composition looks balanced for this project type!")
+
+    for tip in tips:
+        st.write(tip)
