@@ -1,104 +1,43 @@
 import streamlit as st
-import joblib
-import numpy as np
-import pandas as pd
-
-model =joblib.load("model.pkl")
-
-st.title("Project Role Assignment Assistant")
-st.write("Enter your project and team details to get role assignments and smart tips.")
-
-project_type =st.selectbox(
-    "Select Project Type",
-    ["Web Development","Machine Learning","Mobile App","Research","General Software"]
-)
-
-team_size =st.number_input("Number of Team Members",min_value=1, max_value=10, value=3, step=1)
-
-st.divider()
-
-interest_map = {
-    "Coding": 1,
-    "Design": 2,
-    "Research": 3,
-    "Management": 4
-}
-
-role_map = {
-    0: "Developer",
-    1: "Designer",
-    2: "Researcher",
-    3: "Tester",
-    4: "Documenter",
-    5: "Team Leader"
-}
-
-team_data =[]
-
-st.subheader("Enter Details for Each Team Member")
-
-for i in range(int(team_size)):
-    st.markdown(f"Member {i+1}")
-
-    name = st.text_input(f"Name of Member {i+1}", key=f"name_{i}")
-
-    prog = st.slider("Programming Skill (1-10)", 1, 10, 5, key=f"prog_{i}")
-    comm = st.slider("Communication Skill (1-10)", 1, 10, 5, key=f"comm_{i}")
-    cgpa = st.slider("CGPA", 0.0, 10.0, 7.0, key=f"cgpa_{i}")
-    interest = st.selectbox("Interest Area", ["Coding", "Design", "Research", "Management"], key=f"interest_{i}")
-    exp = st.slider("Project Experience (years)", 0, 5, 1, key=f"exp_{i}")
-    prob = st.slider("Problem Solving Skill (1-10)", 1, 10, 5, key=f"prob_{i}")
-    creative = st.slider("Creativity (1-10)", 1, 10, 5, key=f"creative_{i}")
-
-    team_data.append({
-        "name": name if name else f"Member {i+1}",
-        "features": [prog, comm, cgpa, interest_map[interest], exp, prob, creative]
-    })
-
-st.divider()
-
-if st.button("Generate Team Roles"):
-    results = []
-    role_counts = {}
-
-    for member in team_data:
-        features = np.array([member["features"]])
-        pred = model.predict(features)[0]
-        role = role_map[pred]
-
-        results.append({
-            "Name": member["name"],
-            "Assigned Role": role
-        })
-
-        role_counts[role] = role_counts.get(role, 0) + 1
-
-    df_results = pd.DataFrame(results)
-
-    st.subheader("Team Role Assignment")
-    st.table(df_results)
-    
-    st.subheader("Team Advisor Tips")
-
-    tips = []
-
-    if project_type == "Machine Learning":
-        if "Researcher" not in role_counts:
-            tips.append("Consider having at least one Researcher for an ML project.")
-        if role_counts.get("Developer", 0) < 1:
-            tips.append("You should have at least one strong Developer for implementation.")
-
-    if project_type == "Web Development":
-        if "Designer" not in role_counts:
-            tips.append("A Designer can improve UI/UX for web projects.")
-        if role_counts.get("Developer", 0) < 2:
-            tips.append("Web projects usually benefit from having more than one Developer.")
-
-    if "Team Leader" not in role_counts:
-        tips.append("Your team does not have a clear Team Leader. Consider assigning one for coordination.")
-
-    if len(tips) == 0:
-        tips.append("Your team composition looks balanced for this project type!")
-
-    for tip in tips:
-        st.write(tip)
+from predictor import predict_role  
+from advisor import get_tips
+st.set_page_config(page_title="Neural RoleNet", layout="centered")
+st.title("RoleGenie AI")
+st.subheader("Your AI-Powered Team Role Prediction Assistant")
+tab1, tab2= st.tabs(["Role Prediction","Team Simulation"])
+with tab1:
+    st.header("Individual Role Prediction")
+    with st.form("predictionform"):
+        prog=st.number_input("Programming Skill (1-10)", min_value=1, max_value=10, value=5)
+        comm=st.number_input("Communication Skill (1-10)", min_value=1, max_value=10, value=5)
+        prob=st.number_input("Problem Solving (1-10)", min_value=1, max_value=10, value=5)
+        lead=st.number_input("Leadership (1-10)", min_value=1, max_value=10, value=5)
+        exp=st.number_input("Experience (years)", min_value=0, max_value=10, value=1)
+        tech=st.number_input("Technical Depth (1-10)", min_value=1, max_value=10, value=5)
+        interest=st.selectbox("Area of Interest", ["Coding","Design","Research","Management"])
+        submit=st.form_submit_button("Predict Role")
+    if submit:
+        role,confidence= predict_role(prog, comm, prob, lead, exp, tech, interest)
+        st.success(f"Predicted Role: {role}")
+        st.write(f"Confidence: {confidence}%")
+        tip= get_tips(role)
+        st.info(tip)
+with tab2:
+    st.header("Team Role Simulation")
+    st.warning("This feature is under development. Stay tuned for updates!")
+    team_size = st.number_input("Number of Team Members", min_value=1, max_value=6, value=3)
+    members = []
+    for i in range(team_size):
+        st.subheader(f"Member {i+1}")
+        prog =st.number_input(f"Programming Skill {i+1}", 1, 10, 5)
+        comm =st.number_input(f"Communication Skill {i+1}", 1, 10, 5)
+        prob =st.number_input(f"Problem Solving {i+1}", 1, 10, 5)
+        lead =st.number_input(f"Leadership {i+1}", 1, 10, 5)
+        exp =st.number_input(f"Experience (years) {i+1}", 0, 10, 1)
+        tech =st.number_input(f"Technical Depth {i+1}", 1, 10, 5)
+        interest =st.selectbox(f"Area of Interest {i+1}", ["Coding", "Design", "Research", "Management"])
+        members.append((prog, comm, prob, lead, exp, tech, interest))
+    if st.button("Predict Team Roles"):
+        for i,m in enumerate(members):
+            role,conf =predict_role(*m)
+            st.write(f"Member {i+1} → **{role}** ({conf}%)")
