@@ -1,7 +1,7 @@
 import streamlit as st
 from predictor import predict_role  
 from advisor import get_tips
-st.set_page_config(page_title="Neural RoleNet", layout="centered")
+st.set_page_config(page_title="RoleGenie AI", layout="centered")
 st.title("RoleGenie AI")
 st.subheader("Your AI-Powered Team Role Prediction Assistant")
 tab1, tab2= st.tabs(["Role Prediction","Team Simulation"])
