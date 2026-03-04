@@ -9,23 +9,21 @@ def generate():
     technical_depth=random.randint(1,10)
     interest=random.choice(["Coding","Design","Research","Management"])
 
-    if interest=="Coding" and programming>7:
+    if leadership>=8:
+        role=5
+    elif interest=="Coding" and programming>=7:
         role=0
     elif interest=="Design":
-        role=1 
-    elif interest=="Research" and problem_solving>6:
+        role=1
+    elif interest=="Research" and problem_solving>=7:
         role=2
-    elif technical_depth<4:
+    elif technical_depth<=4:
         role=3
-    elif communication>7:
-        role=4
-    elif leadership>7:
-        role=5
     else:
-        role=random.randint(0,5)
+        role=4
     return [programming,communication,problem_solving,leadership,experience,technical_depth,interest,role]
 
-data=[generate() for _ in range(3000)]
+data=[generate() for _ in range(10000)]
 columns=["Programming","Communication","ProblemSolving","Leadership","Experience","TechnicalDepth","Interest","Role"]
 df=pd.DataFrame(data,columns=columns)
 df.to_csv("neural_dataset.csv",index=False)
