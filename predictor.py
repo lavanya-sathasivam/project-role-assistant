@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import joblib
+import pandas as pd
 
 class RoleNet(nn.Module):
     def __init__(self, input_size):
@@ -26,10 +27,9 @@ model.eval()
 rolemap={0:"Developer",1:"Designer",2:"Researcher",3:"Tester",4:"DevOps",5:"Manager"}
  
 def predict_role(programming ,communication, problem_solving, leadership, experience, technical_depth, interest):
-    numeric=np.array([[programming, communication, problem_solving, leadership, experience, technical_depth]])
-
+    numeric = pd.DataFrame([{"Programming": programming, "Communication": communication, "ProblemSolving": problem_solving, "Leadership": leadership, "Experience": experience, "TechnicalDepth": technical_depth }])
     numeric_scaled=scaler.transform(numeric)
-    interest_encoded=encoder.transform([[interest]])
+    interest_encoded=encoder.transform(pd.DataFrame([[interest]]))
     features= np.concatenate([numeric_scaled, interest_encoded], axis=1)
     features= torch.tensor(features, dtype=torch.float32)
 
