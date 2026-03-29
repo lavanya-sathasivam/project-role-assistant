@@ -1,7 +1,16 @@
 import streamlit as st
+from pathlib import Path
 from predictor import predict_role  
 from advisor import get_tips
-st.set_page_config(page_title="RoleGenie AI", layout="centered")
+
+logo_path = Path(__file__).parent / "RoleGenie-AI.png"
+st.set_page_config(page_title="RoleGenie AI", page_icon=str(logo_path), layout="centered")
+
+if logo_path.exists():
+    if hasattr(st, "logo"):
+        st.logo(str(logo_path), icon_image=str(logo_path))
+    st.image(str(logo_path), use_container_width=True)
+
 st.title("RoleGenie AI")
 st.subheader("Your AI-Powered Team Role Prediction Assistant")
 st.divider()
