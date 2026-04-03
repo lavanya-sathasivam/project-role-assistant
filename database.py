@@ -1,4 +1,6 @@
 import sqlite3
+
+import bcrypt
 DB="projects.db"
 def init_db():
     conn=sqlite3.connect(DB)
@@ -19,11 +21,12 @@ def init_db():
     conn.commit()
     conn.close()
 def add_user(username,password):
+    hashed_password=bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
     conn=sqlite3.connect(DB)
     c=conn.cursor()
     c.execute(
         "INSERT INTO users VALUES(NULL,?,?)",
-        (username,password)
+        (username,hashed_password)
     )
     conn.commit()
     conn.close()
@@ -31,12 +34,14 @@ def login_user(username,password):
     conn=sqlite3.connect(DB)
     c=conn.cursor()
     c.execute(
-        "SELECT * FROM users WHERE username=? AND password=?",
-        (username,password)
+        "SELECT * FROM users WHERE username=?",
+        (username,)
     )
     data=c.fetchone()
     conn.close()
-    return data
+    if data and bcrypt.checkpw(password.encode("utf-8"), data[2].encode("utf-8")):
+        return data
+    return None
 def save_history(username,project_name,result):
     conn=sqlite3.connect(DB)
     c=conn.cursor()

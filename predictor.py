@@ -29,7 +29,7 @@ rolemap={0:"Developer",1:"Designer",2:"Researcher",3:"Tester",4:"DevOps",5:"Mana
 def predict_role(programming ,communication, problem_solving, leadership, experience, technical_depth, interest):
     numeric = pd.DataFrame([{"Programming": programming, "Communication": communication, "ProblemSolving": problem_solving, "Leadership": leadership, "Experience": experience, "TechnicalDepth": technical_depth }])
     numeric_scaled=scaler.transform(numeric)
-    interest_encoded=encoder.transform(pd.DataFrame([[interest]]))
+    interest_encoded=encoder.transform(pd.DataFrame([{"Interest": interest}]))
     features= np.concatenate([numeric_scaled, interest_encoded], axis=1)
     features= torch.tensor(features, dtype=torch.float32)
 

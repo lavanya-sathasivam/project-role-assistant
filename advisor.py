@@ -3,7 +3,7 @@ def get_tips(role):
           "Designer": "Work on UI/UX consistency and user interaction.",
           "Researcher": "Explore algorithms, datasets, and experiment design.",
           "Tester": "Ensure system reliability through unit and integration testing.",
-          "Documenter": "Maintain clear documentation for system architecture and workflow.",
-          "Team Leader": "Coordinate tasks and ensure smooth collaboration."
+          "DevOps": "Strengthen deployment, automation, and system monitoring skills.",
+          "Manager": "Coordinate tasks, remove blockers, and keep the team aligned."
           }
     return tips.get(role, "Keep improving your technical skills.")

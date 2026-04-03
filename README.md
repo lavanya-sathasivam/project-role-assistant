@@ -1,115 +1,127 @@
-🧠 RoleGenie AI
+# RoleGenie AI
 
-RoleGenie AI is a Neural Network based application that predicts the most suitable project role for individuals based on their skills and interests.
-The system is built using PyTorch for deep learning and Streamlit for the web interface.
+RoleGenie AI is a neural-network-based application that predicts the most suitable project role for individuals based on their skills and interests. The system uses PyTorch for the model and Streamlit for the interface.
 
-🌐 Live App:
+## Live App
+
 https://role-genie-ai.streamlit.app
 
-🚀 Features
-    Individual Role Prediction:
-    Predict the best role for a single person based on their skills.
+## Features
 
-Inputs include:
-    💠Programming Skill
-    💠Communication Skill
-    💠Problem Solving
-    💠Leadership
-    💠Technical Depth
-    💠Experience
-    💠Area of Interest
+### Individual Role Prediction
 
-Output:
-    💠Predicted Role
-    💠Confidence Score
-    💠Advisory Tips
+Predict the best role for a single person based on:
 
-Team Role Simulation:
-    Users can simulate role assignment for multiple team members.
-The system evaluates each member and assigns the most suitable role.
+- Programming Skill
+- Communication Skill
+- Problem Solving
+- Leadership
+- Technical Depth
+- Experience
+- Area of Interest
+
+Output includes:
+
+- Predicted Role
+- Confidence Score
+- Advisory Tips
+
+### Team Role Simulation
+
+Simulate role assignment for multiple team members. The system evaluates each member and assigns the most suitable role.
 
 Example output:
-    Arun → Developer (84%)
-    Priya → Designer (78%)
-    Rahul → Researcher (72%)
 
-🧠 Machine Learning Model
-    The system uses a Multi-Layer Perceptron (MLP) neural network.
+- Arun -> Developer (84%)
+- Priya -> Designer (78%)
+- Rahul -> Researcher (72%)
+
+## Machine Learning Model
+
+The system uses a Multi-Layer Perceptron (MLP) neural network.
 
 Model architecture:
-    💠Input Layer → 10 Features
-    💠Hidden Layer → 64 Neurons
-    💠Hidden Layer → 32 Neurons
-    💠Hidden Layer → 16 Neurons
-    💠Output Layer → 6 Role Classes
+
+- Input Layer -> 10 Features
+- Hidden Layer -> 64 Neurons
+- Hidden Layer -> 32 Neurons
+- Hidden Layer -> 16 Neurons
+- Output Layer -> 6 Role Classes
 
 Roles predicted by the model:
-    💠Developer
-    💠Designer
-    💠Researcher
-    💠Tester
-    💠Documenter
-    💠Team Leader
+
+- Developer
+- Designer
+- Researcher
+- Tester
+- DevOps
+- Manager
 
 Model performance:
-    Test Accuracy ≈ 83%
 
-📊 Input Features
-    The neural network evaluates the following attributes:
+- Test Accuracy ~= 83%
 
-| Feature           | Description                 |
-| ----------------- | --------------------------- |
-| Programming Skill | Coding proficiency          |
-| Communication     | Team communication ability  |
-| Problem Solving   | Analytical ability          |
-| Leadership        | Team leadership capability  |
-| Experience        | Years of project experience |
-| Technical Depth   | Technical expertise         |
-| Interest          | Preferred domain            |
+## Input Features
 
-Skill levels are captured using:
-    Very Low → Low → Medium → Good → Excellent
+The neural network evaluates the following attributes:
 
-🖥 Technology Stack
-    💠Python
-    💠Streamlit
-    💠PyTorch
-    💠Pandas
-    💠NumPy
-    💠Scikit-learn
+| Feature | Description |
+| --- | --- |
+| Programming Skill | Coding proficiency |
+| Communication | Team communication ability |
+| Problem Solving | Analytical ability |
+| Leadership | Team leadership capability |
+| Experience | Years of project experience |
+| Technical Depth | Technical expertise |
+| Interest | Preferred domain |
 
-📂 Project Structure
-    project-role-assistant
-    │
-    ├── app.py
-    ├── predictor.py
-    ├── advisor.py
-    ├── train.py
-    │
-    ├── neural_model.pth
-    ├── encoder.pkl
-    ├── scaler.pkl
-    │
-    ├── neural_dataset.csv
-    ├── dataset_generation.py
-    │
-    ├── requirements.txt
-    └── README.md
+Skill levels:
 
-⚙️ Running the Project
-    Clone the repository
-        git clone https://github.com/yourusername/project-role-assistant.git
-        cd project-role-assistant
-    Install dependencies:
-        pip install -r requirements.txt
-    Run the application:
-        streamlit run app.py
-    
-🌐 Deployment
-    This application is deployed using Streamlit Community Cloud.
-    Live demo:
-        https://role-genie-ai.streamlit.app
+- Very Low
+- Low
+- Medium
+- Good
+- Excellent
 
-👩🏻‍💻Author
-Lavanya S
+## Technology Stack
+
+- Python
+- Streamlit
+- PyTorch
+- Pandas
+- NumPy
+- Scikit-learn
+
+## Project Structure
+
+```text
+project-role-assistant
+|-- app.py
+|-- predictor.py
+|-- advisor.py
+|-- train.py
+|-- neural_model.pth
+|-- encoder.pkl
+|-- scaler.pkl
+|-- neural_dataset.csv
+|-- neural_dataset.py
+|-- requirements.txt
+`-- README.md
+```
+
+## Running the Project
+
+1. Clone the repository.
+2. Install dependencies with `pip install -r requirements.txt`.
+3. Run the application with `streamlit run app.py`.
+
+## Deployment
+
+This application is deployed using Streamlit Community Cloud:
+
+https://role-genie-ai.streamlit.app
+
+## Author
+
+Lavanya S  
 Artificial Intelligence & Machine Learning Student
